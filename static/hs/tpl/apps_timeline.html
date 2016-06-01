@@ -1,0 +1,272 @@
+<div ng-controller="timelinePageCtrl">
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3"><span ng-bind="condition.type"></span>&nbsp;&nbsp;ET2-MAIN</h1>
+</div>
+<div class="wrapper-md">
+    <div class="panel panel-default">
+        <div class="panel-heading font-bold">
+            CPU
+        </div>
+        <div class="panel-body">
+
+        <div class="col-md-4">
+            <div class="panel panel-default">
+
+
+                <div ui-jq="plot" ui-options="
+              {{d3}},
+              {
+                series: { pie: { show: true, innerRadius: 0.5, stroke: { width: 0 }, label: { show: true, threshold: 0.05 } } },
+                colors: ['{{app.color.primary}}','{{app.color.info}}','{{app.color.success}}','{{app.color.warning}}','{{app.color.danger}}'],
+                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                tooltip: true,
+                tooltipOpts: { content: '%s: %p.0%' }
+              }
+            " style="height:240px"></div>
+
+
+            </div>
+
+
+
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default">
+
+
+                <div ui-jq="plot" ui-options="
+              {{d3}},
+              {
+                series: { pie: { show: true, innerRadius: 0.5, stroke: { width: 0 }, label: { show: true, threshold: 0.05 } } },
+                colors: ['{{app.color.primary}}','{{app.color.info}}','{{app.color.success}}','{{app.color.warning}}','{{app.color.danger}}'],
+                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                tooltip: true,
+                tooltipOpts: { content: '%s: %p.0%' }
+              }
+            " style="height:240px"></div>
+
+
+            </div>
+
+
+
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div ui-jq="plot" ui-options="
+              [
+                { label: 'Alloc', data: {{d1_1}} },
+                { label: 'Used', data: {{d1_2}} }
+
+
+              ],
+              {
+                bars: { show: true, fill: true, lineWidth: 1, order: 1, fillColor: { colors: [{ opacity: 0.5 }, { opacity: 0.9}] } },
+                colors: ['{{app.color.info}}', '{{app.color.success}}', '{{app.color.primary}}'],
+                series: { shadowSize: 1 },
+                xaxis:{ font: { color: '#ccc' } },
+                yaxis:{ font: { color: '#ccc' } },
+                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                tooltip: true
+              }
+            " style="height:240px"></div>
+            </div>
+        </div>
+</div>
+    </div>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading font-bold">
+            MEM
+        </div>
+        <div class="panel-body">
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+
+
+                    <div ui-jq="plot" ui-options="
+              {{d3}},
+              {
+                series: { pie: { show: true, innerRadius: 0.5, stroke: { width: 0 }, label: { show: true, threshold: 0.05 } } },
+                colors: ['{{app.color.primary}}','{{app.color.info}}','{{app.color.success}}','{{app.color.warning}}','{{app.color.danger}}'],
+                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                tooltip: true,
+                tooltipOpts: { content: '%s: %p.0%' }
+              }
+            " style="height:240px"></div>
+
+
+                </div>
+
+
+
+            </div>
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+
+
+                    <div ui-jq="plot" ui-options="
+              {{d3}},
+              {
+                series: { pie: { show: true, innerRadius: 0.5, stroke: { width: 0 }, label: { show: true, threshold: 0.05 } } },
+                colors: ['{{app.color.primary}}','{{app.color.info}}','{{app.color.success}}','{{app.color.warning}}','{{app.color.danger}}'],
+                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                tooltip: true,
+                tooltipOpts: { content: '%s: %p.0%' }
+              }
+            " style="height:240px"></div>
+
+
+                </div>
+
+
+
+            </div>
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div ui-jq="plot" ui-options="
+              [
+                { label: 'Alloc', data: {{d1_1}} },
+                { label: 'Used', data: {{d1_2}} }
+
+
+              ],
+              {
+                bars: { show: true, fill: true, lineWidth: 1, order: 1, fillColor: { colors: [{ opacity: 0.5 }, { opacity: 0.9}] } },
+                colors: ['{{app.color.info}}', '{{app.color.success}}', '{{app.color.primary}}'],
+                series: { shadowSize: 1 },
+                xaxis:{ font: { color: '#ccc' } },
+                yaxis:{ font: { color: '#ccc' } },
+                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                tooltip: true
+              }
+            " style="height:240px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading font-bold">
+            Resource Timeline
+        </div>
+
+        <div class="panel-body">
+            <div class="col-md-6">
+            <div ui-jq="plot" ui-options="
+
+              [
+                { data: {{d}}, points: { show: true, radius: 6}, splines: { show: true, tension: 0.45, lineWidth: 5, fill: 0}},
+                { data: {{d_1}}, points: { show: true, radius: 6}, splines: { show: true, tension: 0.45, lineWidth: 5, fill: 0} }
+              ],
+              {
+                colors: ['{{app.color.info}}','{{app.color.primary}}'],
+                series: { shadowSize: 3 },
+                xaxis:{
+                  font: { color: '#ccc' },
+                  position: 'bottom',
+                  ticks: [
+                    [ 1, 'Jan' ], [ 2, 'Feb' ], [ 3, 'Mar' ], [ 4, 'Apr' ], [ 5, 'May' ], [ 6, 'Jun' ], [ 7, 'Jul' ], [ 8, 'Aug' ], [ 9, 'Sep' ], [ 10, 'Oct' ], [ 11, 'Nov' ], [ 12, 'Dec' ]
+                  ]
+                },
+                yaxis:{ font: { color: '#ccc' } },
+                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                tooltip: true,
+                tooltipOpts: { content: '%x.1 is %y.4',  defaultTheme: false, shifts: { x: 0, y: 20 } }
+              }
+            " style="height:240px" >
+            </div>
+                </div>
+
+            <div class="col-md-6">
+                <div ui-jq="plot" ui-options="
+
+
+
+              [
+                { data: {{d}}, points: { show: true, radius: 6}, splines: { show: true, tension: 0.45, lineWidth: 5, fill: 0 } },
+                { data: {{d_1}}, points: { show: true, radius: 6}, splines: { show: true, tension: 0.45, lineWidth: 5, fill: 0 } }
+              ],
+              {
+                colors: ['{{app.color.info}}','{{app.color.primary}}'],
+                series: { shadowSize: 3 },
+                xaxis:{
+                  font: { color: '#ccc' },
+                  position: 'bottom',
+                  ticks: [
+                    [ 1, 'Jan' ], [ 2, 'Feb' ], [ 3, 'Mar' ], [ 4, 'Apr' ], [ 5, 'May' ], [ 6, 'Jun' ], [ 7, 'Jul' ], [ 8, 'Aug' ], [ 9, 'Sep' ], [ 10, 'Oct' ], [ 11, 'Nov' ], [ 12, 'Dec' ]
+                  ]
+                },
+                yaxis:{ font: { color: '#ccc' } },
+                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+                tooltip: true,
+                tooltipOpts: { content: '%x.1 is %y.4',  defaultTheme: false, shifts: { x: 0, y: 20 } }
+              }
+            " style="height:240px" >
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading font-bold">
+                Evil Angels
+
+                        <div class="btn-group col-sm-offset-8" ng-init="radioModel = 'Male'">
+                            <label class="btn btn-sm btn-info"    ng-model="radioModel" btn-radio="'Male'"><i class="fa fa-check text-active"></i> APP ID</label>
+                            <label class="btn btn-sm btn-success" ng-model="radioModel" btn-radio="'Female'"><i class="fa fa-check text-active"></i> APP NAME</label>
+
+                        </div>
+                    <div class="btn-group dropdown" dropdown>
+                        <button class="btn btn-default btn-sm" dropdown-toggle>CPU Rate Top <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href>CPU Rate Top</a></li>
+                            <li><a href>CPU Rate Bottom</a></li>
+                            <li><a href>CPU Oversold</a></li>
+                            <li class="divider"></li>
+                            <li><a href>MEM Rate Top</a></li>
+                            <li><a href>MEM Rate Bottom</a></li>
+                            <li><a href>MEM Oversold</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <table class="table table-hover table-responsive">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>ID</th>
+                        <th>Queue</th>
+                        <th>User</th>
+                        <th>CPU Allocate</th>
+                        <th>CPU Used</th>
+                        <th>CPU Rate</th>
+                        <th>MEM Allocate</th>
+                        <th>MEM Used</th>
+                        <th>MEM Rate</th>
+                        <th>Instances</th>
+                    </tr>
+                    </thead>
+
+                </table>
+
+
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii:ss'});
+</script>
+
+
+
+</div>

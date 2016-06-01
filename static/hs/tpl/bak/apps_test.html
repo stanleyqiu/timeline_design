@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>DetailQuery</title>
+	<link rel="stylesheet" type="text/css" href="./plugins/jquery-easyui-1.3.5/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="./plugins/jquery-easyui-1.3.5/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="./plugins/jquery-easyui-1.3.5/demo/demo.css">
+	<script type="text/javascript" src="./plugins/jquery-easyui-1.3.5/jquery.min.js"></script>
+	<script type="text/javascript" src="./plugins/jquery-easyui-1.3.5/jquery.easyui.min.js"></script>
+    <script src="./plugins/highcharts-3.0.10/js/highcharts.src.js"></script>
+    <script src="./plugins/highcharts-3.0.10/js/highcharts-more.js"></script>
+    <script src="./plugins/highcharts-3.0.10/js/modules/exporting.js"></script>
+    <script src="./common/common.js"></script>
+
+</head>
+<body>
+
+<div id="container" style="min-width: 210px; min-height: 300px; margin: 0 auto"></div>
+
+<script>
+    //vars
+    var colors = ["#f45b5b", "#8085e9", "#8d4654", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee",
+        "#55BF3B", "#DF5353", "#7798BF", "#aaeeee"];
+    var colorIndex = 0;
+    var colorType = get_query_string("colorType");
+    if(colorType==null){
+        colorType = "queue";
+    }
+    console.log("colorType is "+colorType);
+
+    var appInfoConf = [{
+        "attrName": "name",
+        "showName": "Name"
+    },{
+        "attrName": "queue",
+        "showName": "Queue"
+    },{
+        "attrName": "user",
+        "showName": "User"
+    },{
+        "attrName": "type",
+        "showName": "Type"
+    },{
+        "attrName": "state",
+        "showName": "State"
+    },{
+        "attrName": "startTime",
+        "showName": "Start Time",
+        "format": function(value){
+            return new Date(parseInt(value)).format('yyyy-MM-dd hh:mm:ss')
+        }
+    },{
+        "attrName": "finishTime",
+        "showName": "Finish Time",
+        "format": function(value){
+            return new Date(parseInt(value)).format('yyyy-MM-dd hh:mm:ss')
+        }
+    },{
+        "attrName": "cpuCost",
+        "showName": "CPU Cost",
+        "format": function(value){
+            return toDecimal(parseFloat(value)/(3600),3) + " vcore*Hour"
+        }
+    },{
+        "attrName": "memoryCost",
+        "showName": "Memory Cost",
+        "format": function(value){
+            return toDecimal(parseFloat(value)/(1024*3600),3) + " GB*Hour"
+        }
+    }];
+
+    /* get queue group, for example: root.dump.total -> dump */
+    function getQueueGroup(queue){
+        var queueGroup = queue.replace("root.", "");
+        if (queueGroup.indexOf('.') > 0) {
+            queueGroup = queueGroup.substring(0, queueGroup.indexOf('.'));
+        }
+        return queueGroup;
+    }
+
+
+    //var appsStr = '{"app":[{"appId":"application_1448603462425_0028","name":"distcp","queue":"root.default","user":"yangtao.yt","type":"MapReduce","state":"SUCCEEDED","startTime":"1449835425704","finishTime":"1449839433133","cpuCost":"4007","memoryCost":"40960000"},{"appId":"application_1448603462425_0027","name":"distcp","queue":"root.test.subtest1","user":"yangtao.yt","type":"MapReduce","state":"SUCCEEDED","startTime":"1449832587667","finishTime":"1449837595153","cpuCost":"5007","memoryCost":"251200000"}]}';
+    var appsStr = '{"app":[{"appId":"application_1448603462425_0001","name":"app01","queue":"root.default","user":"yangtao.yt","type":"MapReduce","state":"SUCCEEDED","startTime":"1449830000000","finishTime":"1449880000000","cpuCost":"1000","memoryCost":"10000000"},{"appId":"application_1448603462425_0002","name":"app02","queue":"root.test.subtest1","user":"IStream","type":"MapReduce","state":"SUCCEEDED","startTime":"1449840000000","finishTime":"1449870000000","cpuCost":"5000","memoryCost":"50000000"},{"appId":"application_1448603462425_0003","name":"app03","queue":"root.default","user":"boyuan","type":"MapReduce","state":"SUCCEEDED","startTime":"1449850000000","finishTime":"1449860000000","cpuCost":"3000","memoryCost":"30000000"},{"appId":"application_1448603462425_0004","name":"app04","queue":"root.product.inc","user":"yangtao.yt","type":"MapReduce","state":"FAIL","startTime":"1449865000000","finishTime":"1449910000000","cpuCost":"10000","memoryCost":"200000000"},{"appId":"application_1448603462425_0005","name":"app05","queue":"root.crawl","user":"boyuan","type":"IStream","state":"SUCCEEDED","startTime":"1449875000000","finishTime":"1449880000000","cpuCost":"20000","memoryCost":"100000000"},{"appId":"application_1448603462425_0006","name":"app06","queue":"root.taobao.test","user":"yangtao.yt","type":"MapReduce","state":"FAIL","startTime":"1449890000000","finishTime":"1449900000000","cpuCost":"6000","memoryCost":"80000000"},{"appId":"application_1448603462425_0007","name":"app07","queue":"root.crawl","user":"boyuan","type":"IStream","state":"SUCCEEDED","startTime":"1449895000000","finishTime":"1449910000000","cpuCost":"10000","memoryCost":"200000000"}]}';
+    var appsArrayObj = $.parseJSON(appsStr).app;
+    console.log("Response apps num ：" + appsArrayObj.length);
+    var colorMap = {};
+    for(var i in appsArrayObj) {
+        var appObj = appsArrayObj[i];
+        appObj.appIdSuffix = appObj.appId.substring(appObj.appId.lastIndexOf('_') + 1);
+        var spendTime = (parseInt(appObj.finishTime) - parseInt(appObj.startTime)) / 1000;
+        var memCostGB = appObj.memoryCost / (spendTime * 1024)
+        appObj.width = memCostGB;
+        console.log("app column width:" + appObj.width + ", memCostGB: " + memCostGB);
+        appObj.queueGroup = getQueueGroup(appObj.queue);
+        if(colorMap[appObj[colorType]]==undefined){
+            colorMap[appObj[colorType]] = colors[colorIndex++];
+            if(colorIndex > 12){
+                colorIndex = 0;
+            }
+//            console.log("queue color map:"+JSON.stringify(colorMap));
+        }
+    }
+    // re-structure the tasks into line seriesvar series = [];
+    var series = [];
+    $.each(appsArrayObj, function(i, appObj) {
+        var item = {
+            name: appObj.appIdSuffix,
+            pointWidth: appObj.width,
+            data: [],
+            color: colorMap[appObj[colorType]],
+//            events: {
+//                click: function(e) {
+//                    for(var xx in e.point){
+//                        alert(xx+":"+ e.point[xx])
+//                    }
+//                    alert(e.point.name);
+//                }
+//            }
+        };
+        item.data.push({
+            x: i,
+            name: appObj.name,
+            low: parseInt(appObj.startTime),
+            high:parseInt(appObj.finishTime)
+        });
+        series.push(item);
+    });
+
+    function gen_info_table(appObj){
+        var tableHtml = '<table class="bordered"><tr><td colspan=2><a href="'+appObj.appId+'" target="_blank">'+appObj.appId+'</a></td></tr>';
+        for(var no in appInfoConf){
+            var confItem = appInfoConf[no]
+            var value = appObj[confItem.attrName]
+            if(confItem.format != undefined)
+                value = confItem.format(value)
+            tableHtml += '<tr><td>'+confItem.showName+'</td><td>'+value+'</td></tr>';
+        }
+        tableHtml += '</table>';
+        return tableHtml;
+    }
+
+    $(function () {
+        $('#container').highcharts({
+            chart: {
+                type: 'columnrange',
+                inverted: true
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: 'Apps Timeline Info'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                labels: {
+                    formatter: function() {
+//                        if (appsArrayObj[this.value]) {
+//                            return appsArrayObj[this.value].appIdSuffix;
+//                        }
+                    }
+                },
+                startOnTick: true,
+                endOnTick: true,
+                title: {
+                    text: 'Apps'
+                }
+            },
+
+            yAxis: {
+                type: 'datetime',
+                title: {
+                    text: 'DateTime'
+                }
+            },
+
+            tooltip: {
+                useHTML: true,
+                formatter: function() {
+                    return gen_info_table(appsArrayObj[this.x]);
+                }
+            },
+
+            plotOptions: {
+                columnrange: {
+                    grouping: true,
+                    dataLabels: {
+                        enabled: false,
+                        formatter: function () {
+                            return appsArrayObj[this.x].name;
+                        }
+                    }
+                }
+            },
+
+            legend: {
+                enabled: false
+            },
+
+            series: series
+
+        });
+
+    });
+</script>
+</body>
+</html>

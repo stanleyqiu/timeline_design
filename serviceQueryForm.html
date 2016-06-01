@@ -1,0 +1,28 @@
+<style>
+#queryForm fieldset,input,select{
+    border: 1px solid #B6B6B6;
+}
+</style>
+<div id='queryForm'>
+<fieldset ><legend>Query</legend>
+            <table >
+                <tr><td width='30'>ID</td><td width='100'><input id='id' type='text' value=''></td>
+                    <td style='padding-left: 8px' width='30'>Name</td><td width='100'><input id='name' type='text' value=''></td>
+					<td style='padding-left: 8px' width='60'>State</td>
+                    <td width='330'>
+                        <select id='status'>
+                            <option value='' selected></option>
+                            <option value='FAILED' >FAILED</option>
+                            <option value='STOPPED' >STOPPED</option>
+                        </select>
+                    </td>
+					<td width='40'>CPUCost(vcore*hour)</td><td width='270'><input id='cpu_cost_from' size='15'/> ~ <input id='cpu_cost_to' size='15'/></td>
+                	<td  rowspan=2 align='center' valign='middle'><input type='submit' value='Query' id='btn_query' class='button' onclick='javascript:query()'/></td>
+                <tr><td>User</td><td><input id='user_name' type='text' value=''></td>
+					<td style='padding-left: 8px'>Queue</td><td><input id='queue' type='text' value=''></td>
+					<td>StartTime</td><td><input id='start_time_from' class='datetimepicker_es' /> ~ <input id='start_time_to' class='datetimepicker_es' /></td>
+					<td>MemoryCost(MB*hour)</td><td><input id='memory_cost_from' size='15'/> ~ <input id='memory_cost_to' size='15'/></td>
+                </tr>
+            </table>
+            </fieldset>
+</div>

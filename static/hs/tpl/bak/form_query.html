@@ -1,0 +1,102 @@
+<div class="wrapper-md" ng-controller="timelinePageCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading font-bold">
+            Query form
+            <button class="btn btn-default btn-xs pull-right" ng-init="isCollapsed = true"
+                    ng-click="isCollapsed = !isCollapsed">
+                More...
+            </button>
+        </div>
+        <div class="panel-body">
+            <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="condition.id" placeholder="App ID">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="condition.user" placeholder="User">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="condition.name" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="condition.queue" placeholder="Queue">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">State:</label>
+                        <select name="state" class="form-control" ng-model="condition.state" placeholder="State">
+                            <option></option>
+                            <option>SUCCEEDED</option>
+                            <option>FAILED</option>
+                            <option>KILLED</option>
+                        </select>
+                    </div>
+                    <span class="form-group ">
+                        <label class="form-label"></label>
+                    </span>
+                    <button type="submit" class="btn btn-rounded btn-icon fa fa-search" ng-click="query()"></button>
+
+
+                <!-- collapse -->
+                <div collapse="isCollapsed" class="panel-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="input-group date form_datetime " data-date=""
+                                 data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                                <input class="form-control" size="18" type="text" value="" placeholder="StartTime From">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class=" input-group date form_datetime " data-date="1979-09-16T05:25:07Z"
+                                 data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                                <input class="form-control" size="18" type="text" value=""
+                                       placeholder="FinishTime From">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="condition.queue"
+                                   placeholder="CPUCost From">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="condition.queue"
+                                   placeholder="MemoryCost From">
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="input-group date form_datetime " data-date=""
+                                 data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                                <input class="form-control" size="18" type="text" value="" placeholder="StartTime To">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                            <input type="hidden" id="dtp_input1" value=""/><br/>
+                        </div>
+                        <div class="form-group">
+                            <div class=" input-group date form_datetime " data-date="1979-09-16T05:25:07Z"
+                                 data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                                <input class="form-control" size="18" type="text" value="" placeholder="FinishTime To">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                            <input type="hidden" id="dtp_input1" value=""/><br/>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="condition.queue" placeholder="CPUCost To">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="condition.queue"
+                                   placeholder="MemoryCost To">
+                        </div>
+                    </div>
+                </div>
+                <!-- / collapse -->
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii:ss'});
+</script>
+
+<div id="container" style="min-width: 210px; min-height: 300px; margin: 0 auto"></div>

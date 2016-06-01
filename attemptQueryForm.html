@@ -1,0 +1,16 @@
+<style>
+#queryForm fieldset,input,select{
+    border: 1px solid #B6B6B6;
+}
+</style>
+<div id='queryForm'>
+<fieldset ><legend>Query</legend>
+    <table >
+        <tr><td width='200'></td>
+        	<td width='50'>Node</td><td width='200'><input id='node' type='text' value=''></td>
+            <td width='70'>RunTime</td><td width='500'><input id='time_from' class='datetimepicker_es' /> ~ <input id='time_to' class='datetimepicker_es' /></td>
+        	<td  rowspan=1 align='left' valign='middle'><input type='submit' id='btn_query' value='查询' class='button' onclick='javascript:query()'/></td>
+        </tr>
+    </table>
+</fieldset>
+</div>

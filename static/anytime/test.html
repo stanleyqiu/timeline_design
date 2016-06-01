@@ -1,0 +1,38 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="anytime.css" />
+	<script src="jquery.min.js"></script>
+	<script src="jquery-migrate-1.0.0.js"></script><!-- if jQuery 1.9+ -->
+	<script src="anytime.js"></script>
+</head>
+<body>
+	Start cursor here: <input type="text"/>
+Optional picker: <input type="text" id="tabOverDemoInput"/>
+<input type="button" id="tabOverDemoClear" value="Clear"/>
+Tab to here: <input type="text"/>
+<script>
+    (function tabOverDemoSetup()
+    {
+      $('#tabOverDemoInput').
+        click( function(e) { $(this).off('click').AnyTime_picker().focus(); } ).
+        keydown(
+          function(e)
+          {
+            var key = e.keyCode || e.which;
+            if ( ( key != 16 ) && ( key != 9 ) ) // shift, del, tab
+            {
+                $(this).off('keydown').AnyTime_picker().focus();
+                e.preventDefault();
+            }
+          } );
+      $('#tabOverDemoClear').
+        click(
+          function()
+          {
+            $('#tabOverDemoInput').AnyTime_noPicker().val('');
+            tabOverDemoSetup();
+          } );
+    })();
+</script>
+</body>
+</html>
