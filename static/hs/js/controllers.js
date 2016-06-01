@@ -11,114 +11,85 @@ controllers.controller("timelinePageCtrl", function($scope,$stateParams,$http) {
         $scope.condition.type = $stateParams.appType;
         console.log("App type is "+$stateParams.appType);
     }
-    /*
-        colorType
-     */
-    $scope.colorTypeMapping = {
-        "Queue": "queueGroup",
-        "User": "user",
-        "Type": "type",
-        "State": "state"
-    };
-    $scope.colorTypeShow = "Queue";
-    $scope.colorType = $scope.colorTypeMapping[$scope.colorTypeShow], //default is queue
-    $scope.changeColorType = function(colorTypeShow){
-        $scope.colorTypeShow = colorTypeShow;
-        $scope.colorType = $scope.colorTypeMapping[$scope.colorTypeShow];
-        $scope.render();
-    };
-    /*
-        query
-     */
-    $scope.query = function(){
-        //console.log($scope.condition);
-    	if($scope.startTimeFromStr!=null&&$scope.startTimeFromStr!=""){
-            $scope.condition["startTimeFrom"] = new Date($scope.startTimeFromStr.replace(/-/g, "/")).getTime();
-        }else{
-            delete $scope.condition["startTimeFrom"];
-        }
-        if($scope.startTimeToStr!=null&&$scope.startTimeToStr!=""){
-            $scope.condition["startTimeTo"] = new Date($scope.startTimeToStr.replace(/-/g, "/")).getTime();
-        }else{
-            delete $scope.condition["startTimeTo"];
-        }
-        if($scope.finishTimeFromStr!=null&&$scope.finishTimeFromStr!=""){
-            $scope.condition["finishTimeFrom"] = new Date($scope.finishTimeFromStr.replace(/-/g, "/")).getTime();
-        }else{
-            delete $scope.condition["finishTimeFrom"];
-        }
-        if($scope.finishTimeToStr!=null&&$scope.finishTimeToStr!=""){
-            $scope.condition["finishTimeTo"] = new Date($scope.finishTimeToStr.replace(/-/g, "/")).getTime();
-        }else{
-            delete $scope.condition["finishTimeTo"];
-        }
-        console.log("condition:"+JSON.stringify($scope.condition));
-        $http.get('/ws/v1/hs/apps', {params: $scope.condition
-        }).success(function(data, status, headers, config) {
-            console.log("success!");
-            console.log(data);
-//            console.log("status:"+status);
-//            console.log("headers:"+headers);
-//            console.log("config:"+config);
-            if(data!=null&&data.apps!=null){
-            	$scope.appObjArray = uniform_obj_array(data.apps.app);
-            	console.log($scope.appObjArray);
-            }else{
-            	$scope.appObjArray = [];
-            }
-            //render
-            $scope.render();
-        }).error(function(data, status, headers, config) {
-            console.log("error!");
-            console.log("data:"+data);
-            console.log("status:"+status);
-            console.log("headers:"+headers);
-            console.log("config:"+config);
-        });
-        //TODO: for webstorm test
-        //var appsInfoStr = '{"app":[{"appId":"application_1448603462425_0001","name":"app01","queue":"root.default","user":"yangtao.yt","type":"MapReduce","state":"SUCCEEDED","startTime":"1449830000000","finishTime":"1449880000000","cpuCost":"1000","memoryCost":"10000000"},{"appId":"application_1448603462425_0002","name":"app02","queue":"root.test.subtest1","user":"boyuan","type":"MapReduce","state":"SUCCEEDED","startTime":"1449840000000","finishTime":"1449870000000","cpuCost":"5000","memoryCost":"50000000"},{"appId":"application_1448603462425_0003","name":"app03","queue":"root.default","user":"boyuan","type":"MapReduce","state":"SUCCEEDED","startTime":"1449850000000","finishTime":"1449860000000","cpuCost":"3000","memoryCost":"30000000"},{"appId":"application_1448603462425_0004","name":"app04","queue":"root.product.inc","user":"yangtao.yt","type":"MapReduce","state":"FAIL","startTime":"1449865000000","finishTime":"1449910000000","cpuCost":"10000","memoryCost":"200000000"},{"appId":"application_1448603462425_0005","name":"app05","queue":"root.crawl","user":"boyuan","type":"IStream","state":"SUCCEEDED","startTime":"1449875000000","finishTime":"1449880000000","cpuCost":"20000","memoryCost":"100000000"},{"appId":"application_1448603462425_0006","name":"app06","queue":"root.taobao.test","user":"yangtao.yt","type":"MapReduce","state":"FAIL","startTime":"1449890000000","finishTime":"1449900000000","cpuCost":"6000","memoryCost":"80000000"},{"appId":"application_1448603462425_0007","name":"app07","queue":"root.crawl","user":"boyuan","type":"IStream","state":"SUCCEEDED","startTime":"1449895000000","finishTime":"1449910000000","cpuCost":"10000","memoryCost":"200000000"}]}';
-        //$scope.appObjArray = uniform_obj_array($.parseJSON(appsInfoStr).app);
-    };
+
     /*
         render
      */
     $scope.render = function(){
-    	if($scope.appObjArray.length>0){
-	        var tmpArray = gen_app_dataObjArray_series($scope.appObjArray, $scope.colorType);
-	        var dataObjArray = tmpArray[0];
-	        var series = tmpArray[1];
-	        $scope.colorMap = tmpArray[2];
 
-	        var height = dataObjArray.length * 30;
-	        height = height < 300 ? 300 : height;
-            console.log("Chart height:"+height);
-            $("#container").height(height+"px");
-            //
-	        var chartConfig = getTimelineChartConfig(
-	            'Apps Timeline Chart',   //title
-	            '',                     //subtitlie
-	            'container',			//renderTo
-	            series,                 //series
-	            dataObjArray,           //dataObjArray
-	            gen_app_tooltip_content,//gen_tooltip_content function
-	            app_click				//click function
-	        );
-            if($('#container').highcharts()!=undefined){
-                $('#container').highcharts().destroy();
-//                console.log("----------->destroy");
-            }
-            new Highcharts.Chart(chartConfig);
-    	}else{
-    		$("#container").height("0px");
-    		$scope.colorMap = {}
-    		if($('#container').highcharts()!=undefined){
-                $('#container').highcharts().destroy();
-                console.log("----------->destroy");
-            }
-    	}
+
+        // init test data
+
+        cpu_alloc_data= [
+            ['crawl',   25.0],
+            ['turing',       25],
+            ['vertical',    10],
+            ['pora',     30],
+            ['rings',  10]
+        ];
+
+        cpu_used_data= [
+            ['crawl',   25.0],
+            ['turing',       25],
+            ['vertical',    10],
+            ['pora',     30],
+            ['rings',  10]
+        ];
+
+        categories = [
+            'crawl',
+            'turing',
+            'vertical',
+            'pora',
+            'rings'
+        ];
+
+        serie= [{
+            name: 'Alloc',
+            data: [49.9, 71.5, 106.4, 129.2, 144.0]
+
+        }, {
+            name: 'Used',
+            data: [42.4, 33.2, 34.5, 39.7, 52.6]
+
+        }]
+
+
+        // load pie chart
+
+            // cpu alloc pie
+        var cpuAllocChartConfig = getTimelinePieChartConfig('cpu_alloc_container',cpu_alloc_data, 'CPU Allocate Rate');
+        var cpuAlloc = new Highcharts.Chart(cpuAllocChartConfig);
+
+            // cpu used pie
+        var cpuUsedChartConfig = getTimelinePieChartConfig('cpu_used_container',cpu_used_data, 'CPU Used Rate');
+        var cpuUsed = new Highcharts.Chart(cpuUsedChartConfig);
+
+            // mem alloc pie
+
+        var memAllocCartConfig = getTimelinePieChartConfig('mem_alloc_container', cpu_alloc_data,'MEM Allocate Rate');
+        var memAlloc = new Highcharts.Chart(memAllocCartConfig);
+
+            // mem used pie
+
+        var memUsedChartConfig = getTimelinePieChartConfig('mem_used_container',cpu_used_data, 'MEM Used Rate');
+        var memUsed = new Highcharts.Chart(memUsedChartConfig);
+
+
+        // load column chart
+        var cpuColChartConfig = getTimelineColumnChartConfig('cpu_col_container','CPU Alloc/Used Statistics','Vcores',categories,serie);
+        var colChart = new Highcharts.Chart(cpuColChartConfig);
+
+        // load cur chart
+        var curChartConfig = getTimelineCurChartConfig('cpu_cur_container');
+        var curChart = new Highcharts.Chart(curChartConfig);
+
+
+
     }
     //init timeline
-    $scope.query();
+    $scope.render()
+
 
     // test chart
     $scope.d3 = [
@@ -148,29 +119,5 @@ controllers.controller("timelinePageCtrl", function($scope,$stateParams,$http) {
         $scope.d2.push([i, Math.sin(i)]);
     }
 
-    //test table
-
-
-    $scope.filterOptions = {
-        filterText: "",
-        useExternalFilter: true
-    };
-
-    $scope.totalServerItems = 0;
-
-    $scope.pagingOptions = {
-        pageSizes: [250, 500, 1000],
-        pageSize: 250,
-        currentPage: 1
-    };
-
-    $scope.gridOptions = {
-        data: 'myData',
-        enablePaging: true,
-        showFooter: true,
-        totalServerItems: 'totalServerItems',
-        pagingOptions: $scope.pagingOptions,
-        filterOptions: $scope.filterOptions
-    };
 
 });

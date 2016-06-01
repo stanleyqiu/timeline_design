@@ -9,70 +9,13 @@
         </div>
         <div class="panel-body">
 
-        <div class="col-md-4">
-            <div class="panel panel-default">
+        <div class="col-md-4" id="cpu_alloc_container"></div>
 
 
-                <div ui-jq="plot" ui-options="
-              {{d3}},
-              {
-                series: { pie: { show: true, innerRadius: 0.5, stroke: { width: 0 }, label: { show: true, threshold: 0.05 } } },
-                colors: ['{{app.color.primary}}','{{app.color.info}}','{{app.color.success}}','{{app.color.warning}}','{{app.color.danger}}'],
-                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
-                tooltip: true,
-                tooltipOpts: { content: '%s: %p.0%' }
-              }
-            " style="height:240px"></div>
+        <div class="col-md-4" id="cpu_used_container"></div>
 
+        <div class="col-md-4" id="cpu_col_container">
 
-            </div>
-
-
-
-        </div>
-
-        <div class="col-md-4">
-            <div class="panel panel-default">
-
-
-                <div ui-jq="plot" ui-options="
-              {{d3}},
-              {
-                series: { pie: { show: true, innerRadius: 0.5, stroke: { width: 0 }, label: { show: true, threshold: 0.05 } } },
-                colors: ['{{app.color.primary}}','{{app.color.info}}','{{app.color.success}}','{{app.color.warning}}','{{app.color.danger}}'],
-                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
-                tooltip: true,
-                tooltipOpts: { content: '%s: %p.0%' }
-              }
-            " style="height:240px"></div>
-
-
-            </div>
-
-
-
-        </div>
-
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div ui-jq="plot" ui-options="
-              [
-                { label: 'Alloc', data: {{d1_1}} },
-                { label: 'Used', data: {{d1_2}} }
-
-
-              ],
-              {
-                bars: { show: true, fill: true, lineWidth: 1, order: 1, fillColor: { colors: [{ opacity: 0.5 }, { opacity: 0.9}] } },
-                colors: ['{{app.color.info}}', '{{app.color.success}}', '{{app.color.primary}}'],
-                series: { shadowSize: 1 },
-                xaxis:{ font: { color: '#ccc' } },
-                yaxis:{ font: { color: '#ccc' } },
-                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
-                tooltip: true
-              }
-            " style="height:240px"></div>
-            </div>
         </div>
 </div>
     </div>
@@ -84,70 +27,11 @@
         </div>
         <div class="panel-body">
 
-            <div class="col-md-4">
-                <div class="panel panel-default">
+            <div class="col-md-4" id="mem_alloc_container"></div>
 
+            <div class="col-md-4" id="mem_used_container"></div>
 
-                    <div ui-jq="plot" ui-options="
-              {{d3}},
-              {
-                series: { pie: { show: true, innerRadius: 0.5, stroke: { width: 0 }, label: { show: true, threshold: 0.05 } } },
-                colors: ['{{app.color.primary}}','{{app.color.info}}','{{app.color.success}}','{{app.color.warning}}','{{app.color.danger}}'],
-                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
-                tooltip: true,
-                tooltipOpts: { content: '%s: %p.0%' }
-              }
-            " style="height:240px"></div>
-
-
-                </div>
-
-
-
-            </div>
-
-            <div class="col-md-4">
-                <div class="panel panel-default">
-
-
-                    <div ui-jq="plot" ui-options="
-              {{d3}},
-              {
-                series: { pie: { show: true, innerRadius: 0.5, stroke: { width: 0 }, label: { show: true, threshold: 0.05 } } },
-                colors: ['{{app.color.primary}}','{{app.color.info}}','{{app.color.success}}','{{app.color.warning}}','{{app.color.danger}}'],
-                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
-                tooltip: true,
-                tooltipOpts: { content: '%s: %p.0%' }
-              }
-            " style="height:240px"></div>
-
-
-                </div>
-
-
-
-            </div>
-
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div ui-jq="plot" ui-options="
-              [
-                { label: 'Alloc', data: {{d1_1}} },
-                { label: 'Used', data: {{d1_2}} }
-
-
-              ],
-              {
-                bars: { show: true, fill: true, lineWidth: 1, order: 1, fillColor: { colors: [{ opacity: 0.5 }, { opacity: 0.9}] } },
-                colors: ['{{app.color.info}}', '{{app.color.success}}', '{{app.color.primary}}'],
-                series: { shadowSize: 1 },
-                xaxis:{ font: { color: '#ccc' } },
-                yaxis:{ font: { color: '#ccc' } },
-                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
-                tooltip: true
-              }
-            " style="height:240px"></div>
-                </div>
+            <div class="col-md-4" id="mem_col_container">
             </div>
         </div>
     </div>
@@ -159,31 +43,7 @@
         </div>
 
         <div class="panel-body">
-            <div class="col-md-6">
-            <div ui-jq="plot" ui-options="
-
-              [
-                { data: {{d}}, points: { show: true, radius: 6}, splines: { show: true, tension: 0.45, lineWidth: 5, fill: 0}},
-                { data: {{d_1}}, points: { show: true, radius: 6}, splines: { show: true, tension: 0.45, lineWidth: 5, fill: 0} }
-              ],
-              {
-                colors: ['{{app.color.info}}','{{app.color.primary}}'],
-                series: { shadowSize: 3 },
-                xaxis:{
-                  font: { color: '#ccc' },
-                  position: 'bottom',
-                  ticks: [
-                    [ 1, 'Jan' ], [ 2, 'Feb' ], [ 3, 'Mar' ], [ 4, 'Apr' ], [ 5, 'May' ], [ 6, 'Jun' ], [ 7, 'Jul' ], [ 8, 'Aug' ], [ 9, 'Sep' ], [ 10, 'Oct' ], [ 11, 'Nov' ], [ 12, 'Dec' ]
-                  ]
-                },
-                yaxis:{ font: { color: '#ccc' } },
-                grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
-                tooltip: true,
-                tooltipOpts: { content: '%x.1 is %y.4',  defaultTheme: false, shifts: { x: 0, y: 20 } }
-              }
-            " style="height:240px" >
-            </div>
-                </div>
+            <div class="col-md-6" id="cpu_cur_container"></div>
 
             <div class="col-md-6">
                 <div ui-jq="plot" ui-options="
