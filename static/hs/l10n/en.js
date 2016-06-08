@@ -17,6 +17,7 @@
   "nav" : {
     "HEADER" : "Navigation",
     "OVERVIEW":"Overview",
+        "SCHEDULER":"Scheduler",
     "DASHBOARD" : "Dashboard",
     "CALENDAR" : "Calendar",
     "EMAIL" : "Email",

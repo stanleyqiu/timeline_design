@@ -30,6 +30,13 @@ angular.module('app')
                   resolve: {
                   }
               })
+              .state('app.scheduler', {
+                  url: '/scheduler',
+                  templateUrl: 'tpl/scheduler.html',
+                  resolve: {
+                  }
+
+              })
               .state('app.timeline-model', {
                   url: '/timeline-model/:appType',
                   templateUrl: 'tpl/apps_timeline.html',

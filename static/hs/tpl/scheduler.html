@@ -1,0 +1,248 @@
+<div ng-controller="timelinePageCtrl">
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3"><span ng-bind="condition.type"></span>&nbsp;&nbsp;Scheduler</h1>
+    </div>
+    <div class="wrapper-md">
+
+    <div class="panel panel-default">
+        <div class="panel-heading font-bold">
+            Queues
+        </div>
+        <table class="table table-hover table-responsive">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Allocate Vcores</th>
+                <th>Used Vcores</th>
+                <th>CPU Rate</th>
+                <th>Allocate GBS</th>
+                <th>Used GBS</th>
+                <th>MEM Rate</th>
+                <th>Active Apps</th>
+                <th>Pending Apps</th>
+                <th>Steady Fair Share</th>
+                <th>Instantaneous Fair Share</th>
+            </tr>
+            </thead>
+            <!--tbody>
+            <tr ng-repeat="body in table_bodys">
+                <td>{{body.name}}</td>
+                <td>{{body.id}}</td>
+                <td>{{body.queue}}</td>
+                <td>{{body.user}}</td>
+                <td>{{body.cpu_alloc}}</td>
+                <td>{{body.cpu_used}}</td>
+                <td>{{body.cpu_rate}}</td>
+                <td>{{body.mem_alloc}}</td>
+                <td>{{body.mem_used}}</td>
+                <td>{{body.mem_rate}}</td>
+                <td>{{body.instances}}</td>
+            </tr>
+            </tbody-->
+
+        </table>
+
+
+
+
+
+    </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading font-bold">
+                Apps
+
+                <button class="btn btn-default btn-xs pull-right" ng-init="isCollapsed = true"
+                        ng-click="isCollapsed = !isCollapsed">
+                    More...
+                </button>
+            </div>
+
+            <div class="wrapper bg-auto b-b">
+                <ul class="nav nav-pills nav-sm">
+                    <li ng-class="{true: 'active', false: 'inactive'}[isSelected(1)]" ><a href ng-click="selectTab(1)">Applist</a></li>
+                    <li ng-class="{true: 'active', false: 'inactive'}[isSelected(2)]"><a href ng-click="selectTab(2)">Timeline</a></li>
+                    <li ng-class="{true: 'active', false: 'inactive'}[isSelected(3)]"><a href ng-click="selectTab(3)">ResourceMap</a></li>
+                </ul>
+
+                <form class="form-inline col-lg-offset-2" role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="condition.id" placeholder="App ID">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="condition.user" placeholder="User">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="condition.name" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="condition.queue" placeholder="Queue">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">State:</label>
+                        <select name="state" class="form-control" ng-model="condition.state" placeholder="State">
+                            <option></option>
+                            <option>SUCCEEDED</option>
+                            <option>FAILED</option>
+                            <option>KILLED</option>
+                        </select>
+                    </div>
+                    <span class="form-group ">
+                        <label class="form-label"></label>
+                    </span>
+                    &nbsp;&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-rounded btn-icon fa fa-search" ng-click="query()"></button>
+
+
+                    <!-- collapse -->
+                    <div collapse="isCollapsed" class="panel-body">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="input-group date form_datetime">
+                                    <input class="form-control" size="18" type="text" value=""
+                                           ng-model="startTimeFromStr" placeholder="StartTime From">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class=" input-group date form_datetime">
+                                    <input class="form-control" size="18" type="text" value=""
+                                           ng-model="finishTimeFromStr" placeholder="FinishTime From">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control"
+                                       ng-model="condition.cpuCostFrom" placeholder="CPUCost From">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control"
+                                       ng-model="condition.memoryCostFrom" placeholder="MemoryCost From">
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="input-group date form_datetime" >
+                                    <input class="form-control" size="18" type="text" value=""
+                                           ng-model="startTimeToStr" placeholder="StartTime To">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                <input type="hidden" id="dtp_input1" value=""/><br/>
+                            </div>
+                            <div class="form-group">
+                                <div class=" input-group date form_datetime">
+                                    <input class="form-control" size="18" type="text" value=""
+                                           ng-model="finishTimeToStr" placeholder="FinishTime To">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                <input type="hidden" id="dtp_input1" value=""/><br/>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control"
+                                       ng-model="condition.cpuCostTo" placeholder="CPUCost To">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control"
+                                       ng-model="condition.memoryCostTo" placeholder="MemoryCost To">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- / collapse -->
+                </form>
+
+            </div>
+
+
+            <div class="table-responsive active" ng-show="isSelected(1)">
+                <table ui-jq="dataTable" ui-options="{
+          sAjaxSource: 'vendor/jquery/datatables/datatable.json',
+          aoColumns: [
+            { mData: 'engine' },
+            { mData: 'browser' },
+            { mData: 'platform' },
+            { mData: 'version' },
+            { mData: 'grade' }
+          ]
+        }" class="table table-striped m-b-none">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Queue</th>
+                        <th>Fair Share</th>
+                        <th>StartTime</th>
+                        <th>FinishTime</th>
+                        <th>State</th>
+                        <th>FinalStatus</th>
+                        <th>Containers</th>
+                        <th>Allocated VCores</th>
+                        <th>Used VCores</th>
+                        <th>Allocated Mem GB</th>
+                        <th>Used Mem GB</th>
+                        <th>Tracking UI</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+            <div ng-show="isSelected(2)">
+                <p> Show me the timeline </p>
+            </div>
+            <div ng-show="isSelected(3)">
+                <p> Show me the resource map</p>
+            </div><br />
+
+
+            <!--table class="table table-hover table-responsive">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Queue</th>
+                    <th>Fair Share</th>
+                    <th>StartTime</th>
+                    <th>FinishTime</th>
+                    <th>State</th>
+                    <th>FinalStatus</th>
+                    <th>Containers</th>
+                    <th>Allocated VCores</th>
+                    <th>Used VCores</th>
+                    <th>Allocated Mem GB</th>
+                    <th>Used Mem GB</th>
+                    <th>Tracking UI</th>
+                </tr>
+                </thead>
+                <!--tbody>
+                <tr ng-repeat="body in table_bodys">
+                    <td>{{body.name}}</td>
+                    <td>{{body.id}}</td>
+                    <td>{{body.queue}}</td>
+                    <td>{{body.user}}</td>
+                    <td>{{body.cpu_alloc}}</td>
+                    <td>{{body.cpu_used}}</td>
+                    <td>{{body.cpu_rate}}</td>
+                    <td>{{body.mem_alloc}}</td>
+                    <td>{{body.mem_used}}</td>
+                    <td>{{body.mem_rate}}</td>
+                    <td>{{body.instances}}</td>
+                </tr>
+                </tbody-->
+
+            </table-->
+
+
+
+        </div>
+    </div>
+
+    </div>
+
+
+</div>

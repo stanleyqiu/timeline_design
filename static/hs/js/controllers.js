@@ -44,6 +44,32 @@ controllers.controller("timelinePageCtrl", function($scope,$stateParams,$http) {
             'rings'
         ];
 
+        cur_categories = [
+            '0:00',
+            '1:00',
+            '2:00',
+            '3:00',
+            '4:00',
+            '5:00',
+            '7:00',
+            '8:00',
+            '9:00',
+            '10:00',
+            '11:00',
+            '12:00',
+            '13:00',
+            '14:00',
+            '15:00',
+            '16:00',
+            '17:00',
+            '18:00',
+            '19:00',
+            '20:00',
+            '21:00',
+            '22:00',
+            '23:00',
+            '24:00'
+        ];
         serie= [{
             name: 'Alloc',
             data: [49.9, 71.5, 106.4, 129.2, 144.0]
@@ -52,7 +78,17 @@ controllers.controller("timelinePageCtrl", function($scope,$stateParams,$http) {
             name: 'Used',
             data: [42.4, 33.2, 34.5, 39.7, 52.6]
 
-        }]
+        }];
+
+        cur_serie= [{
+            name: 'Alloc',
+            data: [106, 129, 129, 129.2, 144.0,144, 144, 144, 129.2, 144.0,144, 144, 144, 144, 144.0,144, 144, 129, 129.2, 144.0,144, 144, 129, 129.2]
+
+        }, {
+            name: 'Used',
+            data: [60, 90, 90, 90, 80,70, 60, 90, 100, 100,100, 60, 60, 90, 100,120, 100, 100, 100, 90,90, 100, 100, 120]
+
+        }];
 
 
         // load pie chart
@@ -77,47 +113,56 @@ controllers.controller("timelinePageCtrl", function($scope,$stateParams,$http) {
 
 
         // load column chart
+            // cpu col chart
+
         var cpuColChartConfig = getTimelineColumnChartConfig('cpu_col_container','CPU Alloc/Used Statistics','Vcores',categories,serie);
-        var colChart = new Highcharts.Chart(cpuColChartConfig);
+        var cpuColChart = new Highcharts.Chart(cpuColChartConfig);
+            // mem col chart
+
+        var memColChartConfig = getTimelineColumnChartConfig('mem_col_container','MEM Alloc/Used Statistics','GBS',categories,serie);
+        var memColChart = new Highcharts.Chart(memColChartConfig);
 
         // load cur chart
-        var curChartConfig = getTimelineCurChartConfig('cpu_cur_container');
-        var curChart = new Highcharts.Chart(curChartConfig);
+        var cpuCurChartConfig = getTimelineCurChartConfig('cpu_cur_container','CPU Alloc/Used Timeline','Vcores',cur_categories,cur_serie);
+        var cpuCurChart = new Highcharts.Chart(cpuCurChartConfig);
 
-
+        var memCurChartConfig = getTimelineCurChartConfig('mem_cur_container','MEM Alloc/Used Timeline','Vcores',cur_categories,cur_serie);
+        var memCurChart = new Highcharts.Chart(memCurChartConfig);
 
     }
     //init timeline
+
     $scope.render()
 
-
-    // test chart
-    $scope.d3 = [
-        { label: "Q1", data: 40 },
-        { label: "Q2", data: 10 },
-        { label: "Q3", data: 20 },
-        { label: "Q4", data: 12 },
-        { label: "Q5", data: 18 }
+    //init test table
+    $scope.table_bodys = [
+        {name:'AmazonMerge',id:'appid1',queue:'crawl',user:'hadoop',cpu_alloc:'100',cpu_used:'99',cpu_rate:'99',mem_alloc:'MEM Allocate',mem_used:'MEM Used',mem_rate:'MEM Rate',instances:'1'},
+        {name:'ScheduleService',id:'appid2',queue:'crawl',user:'hadoop',cpu_alloc:'100',cpu_used:'98',cpu_rate:'98',mem_alloc:'MEM Allocate',mem_used:'MEM Used',mem_rate:'MEM Rate',instances:'1'},
+        {name:'bts_xianyu_Sync',id:'appid3',queue:'pora',user:'hadoop',cpu_alloc:'100',cpu_used:'97',cpu_rate:'97',mem_alloc:'MEM Allocate',mem_used:'MEM Used',mem_rate:'MEM Rate',instances:'1'},
+        {name:'taobao_auction_importer_a',id:'appid4',queue:'turing',user:'hadoop',cpu_alloc:'100',cpu_used:'96',cpu_rate:'96',mem_alloc:'MEM Allocate',mem_used:'MEM Used',mem_rate:'MEM Rate',instances:'1'},
+        {name:'AttachmentImage',id:'appid5',queue:'turing',user:'hadoop',cpu_alloc:'100',cpu_used:'95',cpu_rate:'95',mem_alloc:'MEM Allocate',mem_used:'MEM Used',mem_rate:'MEM Rate',instances:'1'},
+        {name:'resource-banner',id:'appid6',queue:'turing',user:'hadoop',cpu_alloc:'100',cpu_used:'94',cpu_rate:'94',mem_alloc:'MEM Allocate',mem_used:'MEM Used',mem_rate:'MEM Rate',instances:'1'},
+        {name:'PostDataMiningService',id:'appid7',queue:'crawl',user:'hadoop',cpu_alloc:'100',cpu_used:'93',cpu_rate:'93',mem_alloc:'MEM Allocate',mem_used:'MEM Used',mem_rate:'MEM Rate',instances:'1'},
+        {name:'ListPageCompare',id:'appid8',queue:'crawl',user:'hadoop',cpu_alloc:'100',cpu_used:'92',cpu_rate:'92',mem_alloc:'MEM Allocate',mem_used:'MEM Used',mem_rate:'MEM Rate',instances:'1'}
     ];
 
-    $scope.d = [ [1,8.5],[2,8.5],[3,8.5],[4,8.5],[5,8],[6,8.5],[7,8.5],[8,8],[9,8],[10,8],[11,8.5],[12,8] ];
-    $scope.d_1 = [ [1,7.5],[2,7.5],[3,7],[4,8],[5,7.5],[6,7],[7,6.8],[8,7],[9,7.2],[10,7],[11,6.8],[12,7] ];
-
-    $scope.d0_1 = [ [0,7],[1,6.5],[2,12.5],[3,7],[4,9],[5,6],[6,11],[7,6.5],[8,8],[9,7] ];
-
-    $scope.d0_2 = [ [0,4],[1,4.5],[2,7],[3,4.5],[4,3],[5,3.5],[6,6],[7,3],[8,4],[9,3] ];
-
-    $scope.d1_1 = [ [10, 120], [20, 70], [30, 70], [40, 60] ];
-
-    $scope.d1_2 = [ [10, 50],  [20, 60], [30, 90],  [40, 35] ];
-
-    $scope.d1_3 = [ [10, 80],  [20, 40], [30, 30],  [40, 20] ];
-
-    $scope.d2 = [];
-
-    for (var i = 0; i < 20; ++i) {
-        $scope.d2.push([i, Math.sin(i)]);
+    $scope.init = function() {
+        $scope.radioModel = "Hello";
+        console.log(" haha haha ");
     }
+
+    // sth about something
+
+    $scope.tab = 1;
+    $scope.selectTab = function(setTab) {
+        $scope.tab = setTab;
+    }
+    $scope.isSelected = function(checkTab) {
+        return $scope.tab === checkTab;
+    };
+
+
+
 
 
 });
