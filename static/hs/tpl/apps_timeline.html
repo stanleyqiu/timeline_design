@@ -1,6 +1,41 @@
 <div ng-controller="timelinePageCtrl">
 <div class="bg-light lter b-b wrapper-md">
+
+    <button class="btn btn-default btn-large pull-right" ng-init="isCollapsed = true"
+            ng-click="isCollapsed = !isCollapsed">
+        Last 24 Hours
+    </button>
+
     <h1 class="m-n font-thin h3"><span ng-bind="condition.type"></span>&nbsp;&nbsp;ET2-MAIN</h1>
+
+
+    <!-- collapse -->
+    <div collapse="isCollapsed" class="panel-body">
+        <div class="row col-md-2 col-lg-offset-4">
+            <div class="form-group">
+                <div class="input-group date form_datetime">
+                    <input class="form-control" type="text" value=""
+                           ng-model="startTimeFromStr" placeholder="StartTime From">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-2">
+            <div class=" input-group date form_datetime">
+                <input class="form-control" type="text" value=""
+                       ng-model="finishTimeToStr" placeholder="FinishTime To">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+            </div>
+            <input type="hidden" id="dtp_input1" value=""/><br/>
+        </div>
+        &nbsp;&nbsp;&nbsp;
+        <button type="submit" class="btn btn-rounded btn-icon fa fa-search" ng-click="query()"></button>
+
+    </div>
+
+
+    <!-- / collapse -->
+
 </div>
 <div class="wrapper-md">
     <div class="panel panel-default">
@@ -54,7 +89,6 @@
     <div class="panel panel-default">
         <div class="panel-heading font-bold">
                 Evil Angels
-
             <div class="wrapper  b-b">
                 <ul class="nav nav-pills nav-sm">
                     <li ng-class="{true: 'active', false: 'inactive'}[isSelected(1)]" ><a href ng-click="selectTab(1)">APP ID</a></li>
