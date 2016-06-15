@@ -29,7 +29,7 @@
             <input type="hidden" id="dtp_input1" value=""/><br/>
         </div>
         &nbsp;&nbsp;&nbsp;
-        <button type="submit" class="btn btn-rounded btn-icon fa fa-search" ng-click="query()"></button>
+        <button type="submit" class="btn btn-rounded btn-icon fa fa-search" ng-click="query_overview()"></button>
 
     </div>
 
@@ -91,13 +91,13 @@
                 Evil Angels
             <div class="wrapper  b-b">
                 <ul class="nav nav-pills nav-sm">
-                    <li ng-class="{true: 'active', false: 'inactive'}[isSelected(1)]" ><a href ng-click="selectTab(1)">APP ID</a></li>
-                    <li ng-class="{true: 'active', false: 'inactive'}[isSelected(2)]"><a href ng-click="selectTab(2)">APP NAME</a></li>
+                    <li ng-class="{true: 'active', false: 'inactive'}[isSelected('app_id')]" ><a href ng-click="selectTab('app_id')">APP ID</a></li>
+                    <li ng-class="{true: 'active', false: 'inactive'}[isSelected('app_name')]"><a href ng-click="selectTab('app_name')">APP NAME</a></li>
                     <div class="btn-group dropdown" dropdown>
-                        <button class="btn btn-default btn-sm" dropdown-toggle>CPU Rate Top <span class="caret"></span></button>
+                        <button class="btn btn-default btn-sm" dropdown-toggle>CPU Rate Top<span class="caret"></span></button>
                         <ul class="dropdown-menu">
                             <li><a href>CPU Rate Top</a></li>
-                            <li><a href>CPU Rate Bottom</a></li>
+                            <li ><a href>CPU Rate Bottom</a></li>
                             <li><a href>CPU Oversold</a></li>
                             <li class="divider"></li>
                             <li><a href>MEM Rate Top</a></li>
@@ -108,7 +108,7 @@
                 </ul>
             </div>
         </div>
-        <table class="table table-hover table-responsive" ng-show="isSelected(1)">
+        <table class="table table-hover table-responsive" ng-show="isSelected('app_id')">
                     <thead>
                     <tr>
                         <th>Name</th>
@@ -125,7 +125,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="body in table_bodys">
+                    <tr ng-repeat="body in report_app_ids">
                         <td>{{body.name}}</td>
                         <td>{{body.id}}</td>
                         <td>{{body.queue}}</td>
@@ -142,7 +142,7 @@
 
         </table>
 
-        <table class="table table-hover table-responsive" ng-show="isSelected(2)">
+        <table class="table table-hover table-responsive" ng-show="isSelected('app_name')">
             <thead>
             <tr>
                 <th>Name</th>
@@ -158,8 +158,8 @@
                 <th>Instances</th>
             </tr>
             </thead>
-            <!--tbody>
-            <tr ng-repeat="body in table_bodys">
+            <tbody>
+            <tr ng-repeat="body in report_app_names">
                 <td>{{body.name}}</td>
                 <td>{{body.id}}</td>
                 <td>{{body.queue}}</td>
@@ -172,7 +172,7 @@
                 <td>{{body.mem_rate}}</td>
                 <td>{{body.instances}}</td>
             </tr>
-            </tbody-->
+            </tbody>
 
         </table>
 

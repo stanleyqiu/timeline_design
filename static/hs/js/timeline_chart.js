@@ -4,6 +4,8 @@
 Highcharts.setOptions({ global: { useUTC: false } });
 
 function getTimelineColumnChartConfig(renderTo,title,y_title,categories,serie){
+
+
     return {
         chart: {
             type: 'column',

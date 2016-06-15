@@ -1,4 +1,4 @@
-<div ng-controller="timelinePageCtrl">
+<div ng-controller="timelineScheduleCtrl">
     <div class="bg-light lter b-b wrapper-md">
         <h1 class="m-n font-thin h3"><span ng-bind="condition.type"></span>&nbsp;&nbsp;Scheduler</h1>
     </div>
@@ -24,28 +24,22 @@
                 <th>Instantaneous Fair Share</th>
             </tr>
             </thead>
-            <!--tbody>
-            <tr ng-repeat="body in table_bodys">
+            <tbody>
+            <tr ng-repeat="body in schedule_queue_names">
                 <td>{{body.name}}</td>
-                <td>{{body.id}}</td>
-                <td>{{body.queue}}</td>
-                <td>{{body.user}}</td>
                 <td>{{body.cpu_alloc}}</td>
                 <td>{{body.cpu_used}}</td>
                 <td>{{body.cpu_rate}}</td>
                 <td>{{body.mem_alloc}}</td>
                 <td>{{body.mem_used}}</td>
                 <td>{{body.mem_rate}}</td>
-                <td>{{body.instances}}</td>
+                <td>{{body.active_apps}}</td>
+                <td>{{body.pending_apps}}</td>
+                <td>{{body.steady_fair_share}}</td>
+                <td>{{body.ins_fair_share}}</td>
             </tr>
-            </tbody-->
-
+            </tbody>
         </table>
-
-
-
-
-
     </div>
 
         <div class="panel panel-default">
@@ -91,7 +85,7 @@
                         <label class="form-label"></label>
                     </span>
                     &nbsp;&nbsp;&nbsp;
-                    <button type="submit" class="btn btn-rounded btn-icon fa fa-search" ng-click="query()"></button>
+                    <button type="submit" class="btn btn-rounded btn-icon fa fa-search" ng-click="schedule_query()"></button>
 
 
                     <!-- collapse -->
@@ -158,11 +152,22 @@
                 <table ui-jq="dataTable" ui-options="{
           sAjaxSource: 'vendor/jquery/datatables/datatable.json',
           aoColumns: [
-            { mData: 'engine' },
-            { mData: 'browser' },
-            { mData: 'platform' },
-            { mData: 'version' },
-            { mData: 'grade' }
+            { mData: 'id' },
+            { mData: 'user' },
+            { mData: 'name' },
+            { mData: 'type' },
+            { mData: 'queue' },
+            { mData: 'fair share' },
+            { mData: 'start time' },
+            { mData: 'finish time' },
+            { mData: 'state' },
+            { mData: 'final status' },
+            { mData: 'containers' },
+            { mData: 'alloc_cpu' },
+            { mData: 'used_cpu' },
+            { mData: 'alloc_mem' },
+            { mData: 'used_mem' },
+            { mData: 'tracking_ui' }
           ]
         }" class="table table-striped m-b-none">
                     <thead>
@@ -191,11 +196,41 @@
             </div>
 
             <div ng-show="isSelected(2)">
-                <p> Show me the timeline </p>
+
+                <div class="panel-body" ng-hide="appObjArray.length==0">
+                    <div class="m-b-sm" >
+                        Color Type &nbsp;&nbsp;
+                        <div class="btn-group dropdown" dropdown>
+                            <button class="btn btn-primary" ng-bind="colorTypeShow"></button>
+                            <button class="btn btn-default" dropdown-toggle><span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a href ng-click="changeColorType('Queue')">Queue</a></li>
+                                <li><a href ng-click="changeColorType('User')">User</a></li>
+                                <li><a href ng-click="changeColorType('Type')">Type</a></li>
+                                <li><a href ng-click="changeColorType('State')">State</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn m-b-xs w-xs btn-default btn-rounded" ng-repeat="x in colorMap"
+                                style="background-color:{{x.color}};" title="{{x.value}}">
+                            {{x.value}}
+                        </button>
+                    </div>
+                </div>
+                <div id="container" ></div>
             </div>
             <div ng-show="isSelected(3)">
-                <p> Show me the resource map</p>
-            </div><br />
+
+                <div class="panel-body">
+                    <div class="col-md-6" id="schedule_cpu_container"></div>
+
+                    <div class="col-md-6" id="schedule_mem_container"></div>
+                </div>
+
+
+
+            </div>
 
 
             <!--table class="table table-hover table-responsive">
