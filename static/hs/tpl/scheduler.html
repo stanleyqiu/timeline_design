@@ -54,9 +54,9 @@
 
             <div class="wrapper bg-auto b-b">
                 <ul class="nav nav-pills nav-sm">
-                    <li ng-class="{true: 'active', false: 'inactive'}[isSelected(1)]" ><a href ng-click="selectTab(1)">Applist</a></li>
-                    <li ng-class="{true: 'active', false: 'inactive'}[isSelected(2)]"><a href ng-click="selectTab(2)">Timeline</a></li>
-                    <li ng-class="{true: 'active', false: 'inactive'}[isSelected(3)]"><a href ng-click="selectTab(3)">ResourceMap</a></li>
+                    <li ng-class="{true: 'active', false: 'inactive'}[isSelected('app_list')]" ><a href ng-click="selectTab('app_list')">Applist</a></li>
+                    <li ng-class="{true: 'active', false: 'inactive'}[isSelected('time_line')]"><a href ng-click="selectTab('time_line')">Timeline</a></li>
+                    <li ng-class="{true: 'active', false: 'inactive'}[isSelected('resource_map')]"><a href ng-click="selectTab('resource_map')">ResourceMap</a></li>
                 </ul>
 
                 <form class="form-inline col-lg-offset-2" role="form">
@@ -148,7 +148,7 @@
             </div>
 
 
-            <div class="table-responsive active" ng-show="isSelected(1)">
+            <div class="table-responsive active" ng-show="isSelected('app_list')">
                 <table ui-jq="dataTable" ui-options="{
           sAjaxSource: 'vendor/jquery/datatables/datatable.json',
           aoColumns: [
@@ -195,7 +195,7 @@
                 </table>
             </div>
 
-            <div ng-show="isSelected(2)">
+            <div ng-show="isSelected('time_line')">
 
                 <div class="panel-body" ng-hide="appObjArray.length==0">
                     <div class="m-b-sm" >
@@ -220,16 +220,12 @@
                 </div>
                 <div id="container" ></div>
             </div>
-            <div ng-show="isSelected(3)">
-
+            <div ng-show="isSelected('resource_map')">
                 <div class="panel-body">
                     <div class="col-md-6" id="schedule_cpu_container"></div>
 
                     <div class="col-md-6" id="schedule_mem_container"></div>
                 </div>
-
-
-
             </div>
 
 

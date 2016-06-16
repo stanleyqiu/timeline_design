@@ -40,6 +40,52 @@ controllers.controller("timelineScheduleCtrl", function($scope,$stateParams,$htt
         {name:'rings',cpu_alloc:'100',cpu_used:'99',cpu_rate:'99',mem_alloc:'MEM Allocate',mem_used:'MEM Used',mem_rate:'MEM Rate',active_apps:100, pending_apps:10,steady_fair_share:500000,ins_fair_share:821980}
     ];
 
+    $scope.report_cpu_cur_serie= [{
+        name: 'Alloc',
+        data: [106, 129, 129, 129.2, 144.0,144, 144, 144, 129.2, 144.0,144, 144, 144, 144, 144.0,144, 144, 129, 129.2, 144.0,144, 144, 129, 129.2]
+
+    }, {
+        name: 'Used',
+        data: [60, 90, 90, 90, 80,70, 60, 90, 100, 100,100, 60, 60, 90, 100,120, 100, 100, 100, 90,90, 100, 100, 120]
+
+    }];
+
+    $scope.report_mem_cur_serie= [{
+        name: 'Alloc',
+        data: [106, 129, 129, 129.2, 144.0,144, 144, 144, 129.2, 144.0,144, 144, 144, 144, 144.0,144, 144, 129, 129.2, 144.0,144, 144, 129, 129.2]
+
+    }, {
+        name: 'Used',
+        data: [60, 90, 90, 90, 80,70, 60, 90, 100, 100,100, 60, 60, 90, 100,120, 100, 100, 100, 90,90, 100, 100, 120]
+
+    }];
+
+    $scope.report_cur_categories = [
+        '0:00',
+        '1:00',
+        '2:00',
+        '3:00',
+        '4:00',
+        '5:00',
+        '7:00',
+        '8:00',
+        '9:00',
+        '10:00',
+        '11:00',
+        '12:00',
+        '13:00',
+        '14:00',
+        '15:00',
+        '16:00',
+        '17:00',
+        '18:00',
+        '19:00',
+        '20:00',
+        '21:00',
+        '22:00',
+        '23:00',
+        '24:00'
+    ];
 
 
 
@@ -156,45 +202,9 @@ controllers.controller("timelineScheduleCtrl", function($scope,$stateParams,$htt
 
         //first we get data from http result and store to local
 
-        // load pie chart
-
-            // cpu alloc pie
-        var cpuAllocChartConfig = getTimelinePieChartConfig('cpu_alloc_container',$scope.report_cpu_alloc_data, 'CPU Allocate Rate');
-        var cpuAlloc = new Highcharts.Chart(cpuAllocChartConfig);
-
-            // cpu used pie
-        var cpuUsedChartConfig = getTimelinePieChartConfig('cpu_used_container',$scope.report_cpu_used_data, 'CPU Used Rate');
-        var cpuUsed = new Highcharts.Chart(cpuUsedChartConfig);
-
-            // mem alloc pie
-
-        var memAllocCartConfig = getTimelinePieChartConfig('mem_alloc_container', $scope.report_cpu_alloc_data,'MEM Allocate Rate');
-        var memAlloc = new Highcharts.Chart(memAllocCartConfig);
-
-            // mem used pie
-
-        var memUsedChartConfig = getTimelinePieChartConfig('mem_used_container',$scope.report_cpu_used_data, 'MEM Used Rate');
-        var memUsed = new Highcharts.Chart(memUsedChartConfig);
 
 
-        // load column chart
-            // cpu col chart
-
-        var cpuColChartConfig = getTimelineColumnChartConfig('cpu_col_container','CPU Alloc/Used Statistics','Vcores',$scope.report_col_categories,$scope.report_cpu_col_serie);
-        var cpuColChart = new Highcharts.Chart(cpuColChartConfig);
-            // mem col chart
-
-        var memColChartConfig = getTimelineColumnChartConfig('mem_col_container','MEM Alloc/Used Statistics','GBS',$scope.report_col_categories,$scope.report_mem_col_serie);
-        var memColChart = new Highcharts.Chart(memColChartConfig);
-
-        // load cur chart
-        var cpuCurChartConfig = getTimelineCurChartConfig('cpu_cur_container','CPU Alloc/Used Timeline','Vcores',$scope.report_cur_categories,$scope.report_cpu_cur_serie);
-        var cpuCurChart = new Highcharts.Chart(cpuCurChartConfig);
-
-        var memCurChartConfig = getTimelineCurChartConfig('mem_cur_container','MEM Alloc/Used Timeline','Vcores',$scope.report_cur_categories,$scope.report_mem_cur_serie);
-        var memCurChart = new Highcharts.Chart(memCurChartConfig);
-
-    }
+    };
     //init timeline
 
     //$scope.query_overview();
@@ -204,7 +214,7 @@ controllers.controller("timelineScheduleCtrl", function($scope,$stateParams,$htt
 
     // sth about something
 
-    $scope.tab = 'app_id';
+    $scope.tab = 'app_list';
     $scope.selectTab = function(setTab) {
         $scope.tab = setTab;
     };
