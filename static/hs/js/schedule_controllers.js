@@ -40,7 +40,7 @@ controllers.controller("timelineScheduleCtrl", function($scope,$stateParams,$htt
         {name:'rings',cpu_alloc:'100',cpu_used:'99',cpu_rate:'99',mem_alloc:'MEM Allocate',mem_used:'MEM Used',mem_rate:'MEM Rate',active_apps:100, pending_apps:10,steady_fair_share:500000,ins_fair_share:821980}
     ];
 
-    $scope.report_cpu_cur_serie= [{
+    $scope.resource_cpu_timeline= [{
         name: 'Alloc',
         data: [106, 129, 129, 129.2, 144.0,144, 144, 144, 129.2, 144.0,144, 144, 144, 144, 144.0,144, 144, 129, 129.2, 144.0,144, 144, 129, 129.2]
 
@@ -50,7 +50,7 @@ controllers.controller("timelineScheduleCtrl", function($scope,$stateParams,$htt
 
     }];
 
-    $scope.report_mem_cur_serie= [{
+    $scope.resource_mem_timeline= [{
         name: 'Alloc',
         data: [106, 129, 129, 129.2, 144.0,144, 144, 144, 129.2, 144.0,144, 144, 144, 144, 144.0,144, 144, 129, 129.2, 144.0,144, 144, 129, 129.2]
 
@@ -95,10 +95,10 @@ controllers.controller("timelineScheduleCtrl", function($scope,$stateParams,$htt
     //scheduler
 
     // load cur chart
-    var ScheduleCpuChartConfig = getTimelineCurChartConfig('schedule_cpu_container','CPU Alloc/Used Timeline','Vcores',$scope.report_cur_categories,$scope.report_cpu_cur_serie);
+    var ScheduleCpuChartConfig = getTimelineCurChartConfig('schedule_cpu_container','CPU Alloc/Used Timeline','Vcores',$scope.report_cur_categories,$scope.resource_cpu_timeline);
     new Highcharts.Chart(ScheduleCpuChartConfig);
 
-    var ScheduleMemChartConfig = getTimelineCurChartConfig('schedule_mem_container','MEM Alloc/Used Timeline','Vcores',$scope.report_cur_categories,$scope.report_mem_cur_serie);
+    var ScheduleMemChartConfig = getTimelineCurChartConfig('schedule_mem_container','MEM Alloc/Used Timeline','Vcores',$scope.report_cur_categories,$scope.resource_mem_timeline);
     new Highcharts.Chart(ScheduleMemChartConfig);
 
 
