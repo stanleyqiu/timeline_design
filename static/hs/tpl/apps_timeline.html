@@ -6,7 +6,7 @@
         Last 24 Hours
     </button>
 
-    <h1 class="m-n font-thin h3"><span ng-bind="condition.type"></span>&nbsp;&nbsp;ET2-MAIN</h1>
+    <h1 class="m-n font-thin h3"><span ng-bind="cluster"></span>&nbsp;&nbsp;ET2-MAIN</h1>
 
 
     <!-- collapse -->
@@ -85,7 +85,6 @@
 
     </div>
 
-
     <div class="panel panel-default">
         <div class="panel-heading font-bold">
                 Evil Angels
@@ -94,15 +93,15 @@
                     <li ng-class="{true: 'active', false: 'inactive'}[isSelected('app_id')]" ><a href ng-click="selectTab('app_id')">APP ID</a></li>
                     <li ng-class="{true: 'active', false: 'inactive'}[isSelected('app_name')]"><a href ng-click="selectTab('app_name')">APP NAME</a></li>
                     <div class="btn-group dropdown" dropdown>
-                        <button class="btn btn-default btn-sm" dropdown-toggle>CPU Rate Top<span class="caret"></span></button>
+                        <button class="btn btn-default btn-sm" dropdown-toggle ng-bind="reportType" ><span class="caret"></span></button>
                         <ul class="dropdown-menu">
-                            <li><a href>CPU Rate Top</a></li>
-                            <li ><a href>CPU Rate Bottom</a></li>
-                            <li><a href>CPU Oversold</a></li>
+                            <li><a href ng-click="setReportType('CPU Rate Top')">CPU Rate Top</a></li>
+                            <li><a href ng-click="setReportType('CPU Rate Bottom')">CPU Rate Bottom</a></li>
+                            <li><a href ng-click="setReportType('CPU Oversold')">CPU Oversold</a></li>
                             <li class="divider"></li>
-                            <li><a href>MEM Rate Top</a></li>
-                            <li><a href>MEM Rate Bottom</a></li>
-                            <li><a href>MEM Oversold</a></li>
+                            <li><a href ng-click="setReportType('MEM Rate Top')">MEM Rate Top</a></li>
+                            <li><a href ng-click="setReportType('MEM Rate Bottom')">MEM Rate Bottom</a></li>
+                            <li><a href ng-click="setReportType('MEM Oversold')">MEM Oversold</a></li>
                         </ul>
                     </div>
                 </ul>
@@ -125,18 +124,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="body in report_app_ids">
-                        <td>{{body.name}}</td>
-                        <td>{{body.id}}</td>
-                        <td>{{body.queue}}</td>
-                        <td>{{body.user}}</td>
-                        <td>{{body.cpu_alloc}}</td>
-                        <td>{{body.cpu_used}}</td>
-                        <td>{{body.cpu_rate}}</td>
-                        <td>{{body.mem_alloc}}</td>
-                        <td>{{body.mem_used}}</td>
-                        <td>{{body.mem_rate}}</td>
-                        <td>{{body.instances}}</td>
+                    <tr ng-repeat="item in blackListObj">
+                        <td>{{item.appName}}</td>
+                        <td>{{item.appId}}</td>
+                        <td>{{item.appQueue}}</td>
+                        <td>{{item.user}}</td>
+                        <td>{{item.cpuAssign}}</td>
+                        <td>{{item.cpuUsage}}</td>
+                        <td>{{item.cpuUsage}}</td>
+                        <td>{{item.memAssign}}</td>
+                        <td>{{item.memUsage}}</td>
+                        <td>{{item.memUsage}}</td>
+                        <td>{{item.instance}}</td>
                     </tr>
                     </tbody>
 
@@ -157,20 +156,18 @@
                 <th>MEM Rate</th>
                 <th>Instances</th>
             </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="body in report_app_names">
-                <td>{{body.name}}</td>
-                <td>{{body.id}}</td>
-                <td>{{body.queue}}</td>
-                <td>{{body.user}}</td>
-                <td>{{body.cpu_alloc}}</td>
-                <td>{{body.cpu_used}}</td>
-                <td>{{body.cpu_rate}}</td>
-                <td>{{body.mem_alloc}}</td>
-                <td>{{body.mem_used}}</td>
-                <td>{{body.mem_rate}}</td>
-                <td>{{body.instances}}</td>
+            <tr ng-repeat="item in blackListObj">
+                <td>{{item.appName}}</td>
+                <td>{{item.appId}}</td>
+                <td>{{item.appQueue}}</td>
+                <td>{{item.user}}</td>
+                <td>{{item.cpuAssign}}</td>
+                <td>{{item.cpuUsage}}</td>
+                <td>{{item.cpuUsage}}</td>
+                <td>{{item.memAssign}}</td>
+                <td>{{item.memUsage}}</td>
+                <td>{{item.memUsage}}</td>
+                <td>{{item.instance}}</td>
             </tr>
             </tbody>
 

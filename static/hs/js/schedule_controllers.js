@@ -169,8 +169,6 @@ controllers.controller("timelineScheduleCtrl", function($scope,$stateParams,$htt
         }).success(function(data, status, headers, config) {
             console.log("success!");
             console.log(data);
-
-
             if(data!=null&&data.apps!=null){
                 $scope.appObjArray = uniform_obj_array(data.apps.app);
                 console.log($scope.appObjArray);
@@ -186,6 +184,10 @@ controllers.controller("timelineScheduleCtrl", function($scope,$stateParams,$htt
             console.log("headers:"+headers);
             console.log("config:"+config);
         });
+
+
+        // get  data in tables and
+
         //TODO: for webstorm test
         //var appsInfoStr = '{"app":[{"appId":"application_1448603462425_0001","name":"app01","queue":"root.default","user":"yangtao.yt","type":"MapReduce","state":"SUCCEEDED","startTime":"1449830000000","finishTime":"1449880000000","cpuCost":"1000","memoryCost":"10000000"},{"appId":"application_1448603462425_0002","name":"app02","queue":"root.test.subtest1","user":"boyuan","type":"MapReduce","state":"SUCCEEDED","startTime":"1449840000000","finishTime":"1449870000000","cpuCost":"5000","memoryCost":"50000000"},{"appId":"application_1448603462425_0003","name":"app03","queue":"root.default","user":"boyuan","type":"MapReduce","state":"SUCCEEDED","startTime":"1449850000000","finishTime":"1449860000000","cpuCost":"3000","memoryCost":"30000000"},{"appId":"application_1448603462425_0004","name":"app04","queue":"root.product.inc","user":"yangtao.yt","type":"MapReduce","state":"FAIL","startTime":"1449865000000","finishTime":"1449910000000","cpuCost":"10000","memoryCost":"200000000"},{"appId":"application_1448603462425_0005","name":"app05","queue":"root.crawl","user":"boyuan","type":"IStream","state":"SUCCEEDED","startTime":"1449875000000","finishTime":"1449880000000","cpuCost":"20000","memoryCost":"100000000"},{"appId":"application_1448603462425_0006","name":"app06","queue":"root.taobao.test","user":"yangtao.yt","type":"MapReduce","state":"FAIL","startTime":"1449890000000","finishTime":"1449900000000","cpuCost":"6000","memoryCost":"80000000"},{"appId":"application_1448603462425_0007","name":"app07","queue":"root.crawl","user":"boyuan","type":"IStream","state":"SUCCEEDED","startTime":"1449895000000","finishTime":"1449910000000","cpuCost":"10000","memoryCost":"200000000"}]}';
         //$scope.appObjArray = uniform_obj_array($.parseJSON(appsInfoStr).app);
@@ -217,6 +219,8 @@ controllers.controller("timelineScheduleCtrl", function($scope,$stateParams,$htt
     $scope.tab = 'app_list';
     $scope.selectTab = function(setTab) {
         $scope.tab = setTab;
+        // then get data from server
+
     };
     $scope.isSelected = function(checkTab) {
         return $scope.tab === checkTab;
