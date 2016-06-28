@@ -150,7 +150,7 @@
 
             <div class="table-responsive active" ng-show="isSelected('app_list')">
                 <table ui-jq="dataTable" ui-options="{
-          sAjaxSource: 'vendor/jquery/datatables/datatable.json',
+                data: {{appData}},
           aoColumns: [
             { mData: 'id' },
             { mData: 'user' },

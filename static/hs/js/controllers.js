@@ -295,7 +295,7 @@ controllers.controller("timelinePageCtrl", function($scope,$stateParams,$http) {
             if($scope.tab=="app_id") {
                 $scope.condition["type"] = "BOTTOM_APP_MEM_RATE_BY_ID";
             } else {
-                $scope.condition["type"] = "BOTTOM_APP_CPU_RATE_BY_NAME";
+                $scope.condition["type"] = "BOTTOM_APP_MEM_RATE_BY_NAME";
             }
 
         } else {
@@ -540,11 +540,6 @@ controllers.controller("timelinePageCtrl", function($scope,$stateParams,$http) {
                     $scope.report_mem_cur_serie[serie].data.push($scope.reportCurObj[item].memUsage);
                 }
             }
-
-
-
-
-
 
 
         }
